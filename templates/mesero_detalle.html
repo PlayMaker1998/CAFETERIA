@@ -1,0 +1,38 @@
+<!-- templates/mesero_detalle.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Detalle del Pedido #{{ pedido.id }} - Mesa: {{ pedido.table_number or 'N/A' }}</h2>
+<form method="POST" action="{{ url_for('mesero.entregar', pedido_id=pedido.id) }}">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Preparado</th>
+        <th>Marcar Entregado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for detalle in pedido.detalles %}
+      <tr>
+        <td>{{ detalle.id }}</td>
+        <td>{{ detalle.producto.nombre }}</td>
+        <td>{{ detalle.cantidad }}</td>
+        <td>{{ 'Sí' if detalle.preparado else 'No' }}</td>
+        <td>
+          {% if detalle.preparado and not detalle.entregado %}
+            <input type="checkbox" name="entregado[]" value="{{ detalle.id }}">
+          {% elif detalle.entregado %}
+            <span class="text-success">Entregado</span>
+          {% else %}
+            <span class="text-muted">No listo</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button type="submit" class="btn btn-success">Confirmar Entrega</button>
+</form>
+{% endblock %}

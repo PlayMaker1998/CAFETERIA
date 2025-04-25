@@ -1,0 +1,32 @@
+<!-- templates/mesero_boletas.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Boletas Generadas</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Boleta</th>
+            <th>ID Ticket</th>
+            <th>Pedido</th>
+            <th>Método de Pago</th>
+            <th>Fecha Emisión</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for boleta in boletas %}
+        <tr>
+            <td>{{ boleta.id }}</td>
+            <td>{{ boleta.ticket_pago_id }}</td>
+            <td>{{ boleta.ticket.pedido.id }}</td>
+            <td>{{ boleta.metodo_pago }}</td>
+            <td>{{ boleta.fecha_emision.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>
+                <a href="{{ url_for('mesero.boleta', boleta_id=boleta.id) }}" class="btn btn-sm btn-primary">Ver Boleta</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('mesero.pedidos') }}" class="btn btn-secondary">Volver a Pedidos</a>
+{% endblock %}

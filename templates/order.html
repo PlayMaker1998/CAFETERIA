@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Realizar Pedido</h2>
+<form method="POST">
+  <div class="mb-3">
+    <label for="client_name" class="form-label">Nombre del Cliente</label>
+    <input type="text" name="client_name" id="client_name" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label for="order_type" class="form-label">Tipo de Pedido</label>
+    <select name="order_type" id="order_type" class="form-select" required onchange="toggleMesa(this.value)">
+      <option value="para_llevar">Para Llevar</option>
+      <option value="comer_aqui">Comer Aquí</option>
+    </select>
+  </div>
+  <div class="mb-3" id="mesa_div" style="display:none;">
+    <label for="table_number" class="form-label">Número de Mesa</label>
+    <input type="number" name="table_number" id="table_number" class="form-control">
+  </div>
+  <h4>Productos</h4>
+  <table class="table" id="productos_table">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="producto_row">
+        <td>
+          <select name="producto_codigo[]" class="form-select" required>
+            <option value="">Seleccione...</option>
+            {% for prod in productos %}
+            <option value="{{ prod.codigo }}">{{ prod.nombre }} (S/ {{ prod.precio }})</option>
+            {% endfor %}
+          </select>
+        </td>
+        <td>
+          <input type="number" name="cantidad[]" class="form-control" value="1" min="1" required>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger" onclick="removeRow(this)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-secondary mb-3" onclick="addRow()">Agregar Producto</button>
+  <br>
+  <button type="submit" class="btn btn-success">Enviar Pedido</button>
+</form>
+
+<script>
+function toggleMesa(value) {
+  document.getElementById('mesa_div').style.display = value === 'comer_aqui' ? 'block' : 'none';
+}
+function addRow() {
+  const table = document.getElementById('productos_table').getElementsByTagName('tbody')[0];
+  const newRow = table.rows[0].cloneNode(true);
+  newRow.querySelector('select').selectedIndex = 0;
+  newRow.querySelector('input').value = 1;
+  table.appendChild(newRow);
+}
+function removeRow(button) {
+  const row = button.closest('tr');
+  const table = document.getElementById('productos_table').getElementsByTagName('tbody')[0];
+  if (table.rows.length > 1) {
+    row.remove();
+  } else {
+    alert("Debe haber al menos un producto seleccionado.");
+  }
+}
+</script>
+{% endblock %}
