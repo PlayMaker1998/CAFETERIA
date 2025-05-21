@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Menú</h2>
+<div class="row">
+  {% for prod in productos %}
+  <div class="col-md-3 mb-3">
+    <div class="card">
+      <img src="{{ prod.imagen_url or 'https://via.placeholder.com/150' }}" class="card-img-top" alt="{{ prod.nombre }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ prod.nombre }}</h5>
+        <p class="card-text">S/ {{ prod.precio }}</p>
+        <p class="card-text"><small>{{ prod.descripcion }}</small></p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Panel de Administración</h2>
+
+<h4>Usuarios</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombres</th>
+      <th>Apellidos</th>
+      <th>DNI</th>
+      <th>Email</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for usuario in usuarios %}
+    <tr>
+      <td>{{ usuario.id }}</td>
+      <td>{{ usuario.first_name }}</td>
+      <td>{{ usuario.last_name }}</td>
+      <td>{{ usuario.dni }}</td>
+      <td>{{ usuario.email }}</td>
+      <td>{{ usuario.rol }}</td>
+      <td>
+        <a href="{{ url_for('admin.editar_usuario', user_id=usuario.id) }}" class="btn btn-sm btn-warning">Editar</a>
+        <form action="{{ url_for('admin.eliminar_usuario', user_id=usuario.id) }}" method="POST" style="display:inline;">
+          <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h4>Productos</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th>Categoría</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for prod in productos %}
+    <tr>
+      <td>{{ prod.codigo }}</td>
+      <td>{{ prod.nombre }}</td>
+      <td>S/ {{ prod.precio }}</td>
+      <td>{{ prod.categoria }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h4>Inventario</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Producto</th>
+      <th>Stock</th>
+      <th>Unidad</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for inv in inventario %}
+    <tr>
+      <td>{{ inv.producto.nombre }}</td>
+      <td>{{ inv.stock }}</td>
+      <td>{{ inv.unidad }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{{ url_for('admin.crear_producto') }}" class="btn btn-primary">Crear Producto</a>
+{% endblock %}

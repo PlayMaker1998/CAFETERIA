@@ -1,0 +1,39 @@
+<!-- templates/mesero_pedidos_por_cobrar.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Pedidos por Cobrar</h2>
+<form method="POST" action="{{ url_for('mesero.cobrar') }}">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Seleccionar</th>
+        <th>ID Pedido</th>
+        <th>Cliente</th>
+        <th>Mesa</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pedido in pedidos %}
+      <tr>
+        <td>
+          <input type="checkbox" name="pedido_id" value="{{ pedido.id }}">
+        </td>
+        <td>{{ pedido.id }}</td>
+        <td>{{ pedido.client_name }}</td>
+        <td>{{ pedido.table_number or 'N/A' }}</td>
+        <td>S/ {{ pedido.total }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="mb-3">
+    <label for="metodo_pago" class="form-label">Método de Pago</label>
+    <select name="metodo_pago" id="metodo_pago" class="form-select">
+      <option value="efectivo">Efectivo</option>
+      <option value="tarjeta">Tarjeta</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Confirmar Cobro y Generar Boleta</button>
+</form>
+{% endblock %}

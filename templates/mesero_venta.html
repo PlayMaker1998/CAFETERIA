@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Resumen de Venta</h2>
+<p><strong>Detalle de Venta:</strong></p>
+<pre>{{ detalle }}</pre>
+<p><strong>Total a Cobrar:</strong> S/ {{ total }}</p>
+<form method="POST" action="{{ url_for('mesero.venta') }}">
+  <!-- Estos campos ocultos transmiten los datos agregados -->
+  <input type="hidden" name="pedido_ids_agg" value="{{ pedido_ids }}">
+  <input type="hidden" name="total" value="{{ total }}">
+  <input type="hidden" name="detalle" value="{{ detalle }}">
+  <div class="mb-3">
+    <label for="metodo_pago" class="form-label">Método de Pago</label>
+    <select name="metodo_pago" id="metodo_pago" class="form-select" required>
+      <option value="efectivo">Efectivo</option>
+      <option value="tarjeta">Tarjeta</option>
+    </select>
+  </div>
+  <!-- Un campo oculto para indicar confirmación -->
+  <input type="hidden" name="confirmar" value="1">
+  <button type="submit" class="btn btn-success">Confirmar Pago y Emitir Boleta</button>
+</form>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Pedidos (Cocina)</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID Detalle</th>
+      <th>Pedido</th>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>Preparado</th>
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for detalle in detalles %}
+    <tr>
+      <td>{{ detalle.id }}</td>
+      <td>{{ detalle.pedido.id }}</td>
+      <td>{{ detalle.producto.nombre }}</td>
+      <td>{{ detalle.cantidad }}</td>
+      <td>{{ 'Sí' if detalle.preparado else 'No' }}</td>
+      <td>
+        {% if not detalle.preparado %}
+        <form action="{{ url_for('cocina.preparado', detalle_id=detalle.id) }}" method="POST">
+          <button type="submit" class="btn btn-sm btn-primary">Marcar preparado</button>
+        </form>
+        {% else %}
+        <span class="text-success">Preparado</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+setTimeout(function(){
+   window.location.reload(1);
+}, 30000);
+</script>
+{% endblock %}

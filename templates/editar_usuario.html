@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Editar Usuario</h2>
+<form method="POST">
+  <div class="mb-3">
+    <label for="first_name" class="form-label">Nombres</label>
+    <input type="text" name="first_name" id="first_name" class="form-control" value="{{ usuario.first_name }}" required>
+  </div>
+  <div class="mb-3">
+    <label for="last_name" class="form-label">Apellidos</label>
+    <input type="text" name="last_name" id="last_name" class="form-control" value="{{ usuario.last_name }}" required>
+  </div>
+  <div class="mb-3">
+    <label for="dni" class="form-label">DNI</label>
+    <input type="text" name="dni" id="dni" class="form-control" value="{{ usuario.dni }}" required>
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Correo Electrónico</label>
+    <input type="email" name="email" id="email" class="form-control" value="{{ usuario.email }}" required>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Contraseña</label>
+    <input type="password" name="password" id="password" class="form-control" value="{{ usuario.password }}" required>
+  </div>
+  <div class="mb-3">
+    <label for="rol" class="form-label">Rol</label>
+    <select name="rol" id="rol" class="form-select" required>
+      <option value="cliente" {% if usuario.rol=='cliente' %}selected{% endif %}>Cliente</option>
+      <option value="mesero" {% if usuario.rol=='mesero' %}selected{% endif %}>Mesero</option>
+      <option value="cocinero" {% if usuario.rol=='cocinero' %}selected{% endif %}>Cocinero</option>
+      <option value="admin" {% if usuario.rol=='admin' %}selected{% endif %}>Administrador</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-success">Actualizar Usuario</button>
+</form>
+{% endblock %}
