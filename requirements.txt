@@ -1,0 +1,6 @@
+Flask
+Flask-Login
+Flask-Bcrypt
+Flask-Caching
+Flask-SQLAlchemy
+gunicorn
